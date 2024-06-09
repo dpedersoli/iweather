@@ -8,7 +8,7 @@ describe('Component: SelectList', () => {
       {id: '2', name: 'Campo Grande', latitude: 789, longitude: 987},
     ];
 
-    const onPress = jest.fn(); //esse "onPress" será uma função do jest
+    const onPress = jest.fn();
 
     render(
       <SelectList
@@ -20,5 +20,20 @@ describe('Component: SelectList', () => {
 
     const selectedCity = screen.getByText(/campo/i);
     fireEvent.press(selectedCity);
+
+    expect(onPress).toHaveBeenCalledWith(data[1])
+  })
+
+  it("should not show options when data props is empty.", () => {
+    render(
+      <SelectList
+        data={[]}
+        onChange={() => { }}
+        onPress={() => { }}
+      />
+    )
+
+    const options = screen.getByTestId("options");
+    expect(options.children).toHaveLength(0);
   })
 });
